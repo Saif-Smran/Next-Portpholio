@@ -1,26 +1,121 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --muted: #64748b;
+  --accent: #16a34a;
+  --accent-2: #2563eb;
+  --danger: #dc2626;
+  --success: #16a34a;
+  --warn: #d97706;
+  --bage: #090a0f;
+  --bageText: #f8fafc;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dark,
+[data-theme="dark"] {
+  --bg: #090a0f;
+  --surface: #10131c;
+  --surface-2: #171c28;
+  --border: #222838;
+  --text: #f1f5f9;
+  --muted: #94a3b8;
+  --accent: #b6f24a;
+  --accent-2: #60a5fa;
+  --danger: #f87171;
+  --success: #4ade80;
+  --warn: #fbbf24;
+  --bage: #f8fafc;
+  --bageText: #090a0f;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+  --color-warn: var(--warn);
+
+  --font-sans:
+    var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+  --font-mono:
+    var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, monospace;
+  --font-heading: var(--font-bricolage), system-ui, sans-serif;
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  color-scheme: light dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+/* Headings typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.025em;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* Card hover lift effect specified in section 6.4 */
+.hover-card {
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.hover-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+/* Selection */
+::selection {
+  background-color: var(--accent);
+  color: #0a0b0d;
 }

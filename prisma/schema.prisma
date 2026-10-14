@@ -1,0 +1,224 @@
+// Portfolio v2 schema. PostgreSQL via Prisma.
+// Arrays are stored as JSON strings. Enum-like fields are Strings validated with Zod.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUser {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+// Singleton: always id = 1
+model Profile {
+  id           Int      @id @default(1)
+  name         String
+  headline     String
+  bio          String // markdown
+  location     String
+  email        String
+  availability String   @default("open") // open | limited | closed
+  availabilityNote String?
+  resumeUrl    String?
+  avatarUrl    String?
+  nowText      String? // markdown, shown on /now
+  updatedAt    DateTime @updatedAt
+}
+
+model SocialLink {
+  id        Int    @id @default(autoincrement())
+  platform  String // github | linkedin | email | portfolio | other
+  label     String
+  url       String
+  sortOrder Int    @default(0)
+}
+
+model SkillCategory {
+  id        Int     @id @default(autoincrement())
+  name      String  @unique // Frontend, Backend, Databases, DevOps, Languages, AI/ML
+  sortOrder Int     @default(0)
+  skills    Skill[]
+}
+
+model Skill {
+  id         Int            @id @default(autoincrement())
+  name       String         @unique
+  level      Int            @default(3) // 1-5, shown as words (Learning, Working, Proficient, Strong, Expert), not bars
+  featured   Boolean        @default(false)
+  iconKey    String?
+  categoryId Int
+  category   SkillCategory  @relation(fields: [categoryId], references: [id])
+  projects   ProjectSkill[]
+
+  @@index([categoryId])
+}
+
+model Project {
+  id        Int            @id @default(autoincrement())
+  slug      String         @unique
+  title     String
+  tagline   String
+  summary   String // 2-3 sentences for cards
+  problem   String? // markdown
+  solution  String? // markdown
+  body      String? // markdown: features, hard problems, results, next steps
+  role      String? // e.g. "Solo developer", "Team lead and backend"
+  teamSize  Int            @default(1)
+  startDate DateTime?
+  endDate   DateTime?
+  liveUrl   String?
+  repoUrl   String?
+  repoUrl2  String? // second repo (frontend/backend split)
+  coverImage String?
+  featured  Boolean        @default(false)
+  kind      String         @default("web") // web | mobile | research | client | academic
+  status    String         @default("shipped") // shipped | in_progress | archived
+  sortOrder Int            @default(0)
+  published Boolean        @default(false)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  skills    ProjectSkill[]
+  media     ProjectMedia[]
+  testimonials Testimonial[]
+
+  @@index([published, featured, sortOrder])
+}
+
+model ProjectSkill {
+  projectId Int
+  skillId   Int
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  skill     Skill   @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@id([projectId, skillId])
+}
+
+model ProjectMedia {
+  id        Int     @id @default(autoincrement())
+  projectId Int
+  url       String
+  alt       String // required for accessibility
+  kind      String  @default("screenshot") // screenshot | diagram | erd
+  sortOrder Int     @default(0)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId, sortOrder])
+}
+
+model Experience {
+  id          Int       @id @default(autoincrement())
+  title       String
+  org         String
+  location    String?
+  startDate   DateTime
+  endDate     DateTime? // null = present
+  description String // markdown
+  kind        String    @default("project") // project | leadership | teaching | work
+  sortOrder   Int       @default(0)
+  published   Boolean   @default(true)
+}
+
+model Education {
+  id         Int     @id @default(autoincrement())
+  school     String
+  degree     String
+  field      String
+  startYear  Int
+  endYear    Int? // expected graduation
+  gpa        String?
+  showGpa    Boolean @default(false)
+  coursework String? // JSON array string
+  notes      String?
+  sortOrder  Int     @default(0)
+}
+
+model Certification {
+  id            Int       @id @default(autoincrement())
+  title         String
+  issuer        String
+  issuedAt      DateTime?
+  credentialUrl String?
+  sortOrder     Int       @default(0)
+}
+
+model Research {
+  id          Int      @id @default(autoincrement())
+  slug        String   @unique
+  title       String
+  abstract    String
+  status      String   @default("in_progress") // idea | in_progress | submitted | published
+  venue       String?
+  venueStatus String? // target | submitted | accepted | published
+  supervisor  String?
+  repoUrl     String?
+  paperUrl    String?
+  body        String? // markdown: approach, datasets, methods, reading list
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Post {
+  id          Int       @id @default(autoincrement())
+  slug        String    @unique
+  title       String
+  excerpt     String
+  body        String // markdown
+  coverImage  String?
+  tags        String    @default("[]") // JSON array string
+  published   Boolean   @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([published, publishedAt])
+}
+
+model Testimonial {
+  id        Int      @id @default(autoincrement())
+  author    String
+  role      String
+  quote     String
+  projectId Int?
+  project   Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  approved  Boolean  @default(false) // only true with written permission
+  sortOrder Int      @default(0)
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  subject   String // internship | freelance | research | other
+  body      String
+  status    String   @default("UNREAD") // UNREAD | READ | ARCHIVED
+  ipHash    String?
+  createdAt DateTime @default(now())
+
+  @@index([status, createdAt])
+}
+
+model PageView {
+  id           Int      @id @default(autoincrement())
+  path         String
+  referrerHost String?
+  visitorHash  String // sha256(ip + ua + daily salt), no raw IP stored
+  createdAt    DateTime @default(now())
+
+  @@index([path, createdAt])
+  @@index([createdAt])
+}
+
+model Setting {
+  key       String   @id
+  value     String // JSON string
+  updatedAt DateTime @updatedAt
+}
