@@ -1,9 +1,9 @@
-import fs from "fs";
+import fs from "node:fs";
+import path from "node:path";
 import { type NextRequest, NextResponse } from "next/server";
-import path from "path";
 
 export async function GET(
-  req: NextRequest,
+  _req: NextRequest,
   { params }: { params: Promise<{ path: string[] }> },
 ) {
   const { path: pathSegments } = await params;

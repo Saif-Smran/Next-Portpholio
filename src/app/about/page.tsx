@@ -1,29 +1,63 @@
 import {
   ArrowRight,
-  Calendar,
   Compass,
   GitCommit,
   GraduationCap,
   Languages,
-  Mail,
-  MapPin,
 } from "lucide-react";
+import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Chip } from "@/components/ui/chip";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { getProfile, listEducation, listExperiences } from "@/lib/db";
 
-export const metadata = {
-  title: "About",
-  description:
-    "Background, education, engineering philosophy, and research direction of A.H.M. Saif Smran.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const profile = await getProfile();
+  const title = "About & Engineering Story | A.H.M. Saif Smran";
+  const description =
+    profile?.bio ||
+    "Background, education at IUBAT, engineering philosophy, and research direction of A.H.M. Saif Smran.";
+
+  return {
+    title,
+    description,
+    keywords: [
+      "Saif Smran",
+      "About Saif Smran",
+      "Software Engineer",
+      "IUBAT",
+      "TypeScript",
+      "Next.js",
+      "Computer Vision",
+    ],
+    openGraph: {
+      title,
+      description,
+      url: "/about",
+      type: "profile",
+      images: [
+        {
+          url: "/profile-pic.png",
+          width: 800,
+          height: 800,
+          alt: "A.H.M. Saif Smran Profile",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/profile-pic.png"],
+    },
+  };
+}
 
 export default async function AboutPage() {
-  const [profile, educationList, experiences] = await Promise.all([
+  const [_profile, educationList, experiences] = await Promise.all([
     getProfile(),
     listEducation(),
     listExperiences(),
@@ -37,46 +71,61 @@ export default async function AboutPage() {
         description="Full-stack developer building robust distributed web backends and advancing into computer vision research."
       />
 
-      {/* 1. Narrative Bio & Direction */}
+      {/* 1. Narrative Bio & Direction with Profile Portrait */}
       <section className="space-y-6">
-        <div className="prose prose-invert max-w-none text-[var(--text)]/90 leading-relaxed text-sm md:text-base space-y-4">
-          <p>
-            I am a final-year Computer Science and Engineering student at the{" "}
-            <strong className="text-[var(--text)]">
-              International University of Business Agriculture and Technology
-              (IUBAT)
-            </strong>{" "}
-            in Dhaka, Bangladesh.
-          </p>
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+          <div className="md:col-span-8 prose prose-invert max-w-none text-[var(--text)]/90 leading-relaxed text-sm md:text-base space-y-4">
+            <p>
+              I am a final-year Computer Science and Engineering student at the{" "}
+              <strong className="text-[var(--text)]">
+                International University of Business Agriculture and Technology
+                (IUBAT)
+              </strong>{" "}
+              in Dhaka, Bangladesh.
+            </p>
 
-          <p>
-            My engineering foundation is built around{" "}
-            <strong className="text-[var(--accent)]">
-              TypeScript, Next.js, Express, Prisma, and PostgreSQL
-            </strong>
-            . Over the past three years, I have architected and shipped complex
-            full-stack web applications featuring role-based access control,
-            cryptographic Stripe payment webhooks, and transactional database
-            integrity guarantees to eliminate race conditions.
-          </p>
+            <p>
+              My engineering foundation is built around{" "}
+              <strong className="text-[var(--accent)]">
+                TypeScript, Next.js, Express, Prisma, and PostgreSQL
+              </strong>
+              . Over the past three years, I have architected and shipped
+              complex full-stack web applications featuring role-based access
+              control, cryptographic Stripe payment webhooks, and transactional
+              database integrity guarantees to eliminate race conditions.
+            </p>
 
-          <p>
-            Alongside web engineering, my primary academic focus is applied
-            computer vision. My undergraduate thesis investigates{" "}
-            <strong className="text-[var(--accent-2)]">
-              Multi-Object Tracking in High Density Crowd
-            </strong>{" "}
-            using YOLO detection families, Slicing Aided Hyper Inference (SAHI),
-            and recurrent memory networks on drone aerial benchmarks.
-          </p>
+            <p>
+              Alongside web engineering, my primary academic focus is applied
+              computer vision. My undergraduate thesis investigates{" "}
+              <strong className="text-[var(--accent-2)]">
+                Multi-Object Tracking in High Density Crowd
+              </strong>{" "}
+              using YOLO detection families, Slicing Aided Hyper Inference
+              (SAHI), and recurrent memory networks on drone aerial benchmarks.
+            </p>
 
-          <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-2)]/60 font-mono text-xs flex items-center gap-3">
-            <Compass className="w-4 h-4 text-[var(--accent)] shrink-0" />
-            <span>
-              <strong>Future Direction:</strong> Preparing applications for
-              Master of Science programs in Data Science and Machine Learning in
-              Germany and the Netherlands.
-            </span>
+            <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-2)]/60 font-mono text-xs flex items-center gap-3">
+              <Compass className="w-4 h-4 text-[var(--accent)] shrink-0" />
+              <span>
+                <strong>Future Direction:</strong> Preparing applications for
+                Master of Science programs in Data Science and Machine Learning
+                in Germany and the Netherlands.
+              </span>
+            </div>
+          </div>
+
+          <div className="md:col-span-4 flex justify-center">
+            <div className="relative w-full max-w-[280px] aspect-square rounded-2xl overflow-hidden border-2 border-[var(--border)] bg-[var(--surface-2)] shadow-xl glow-card group">
+              <div className="absolute -inset-1 bg-gradient-to-tr from-[var(--accent)] via-emerald-400 to-[var(--accent-2)] opacity-40 blur group-hover:opacity-80 transition duration-300" />
+              <Image
+                src="/profile-pic.png"
+                alt="A.H.M. Saif Smran"
+                width={300}
+                height={300}
+                className="w-full h-full object-cover object-top relative z-10 group-hover:scale-105 transition-transform duration-300"
+              />
+            </div>
           </div>
         </div>
       </section>

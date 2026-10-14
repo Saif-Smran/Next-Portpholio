@@ -11,8 +11,8 @@ export function Chip({ className, active, ...props }: ChipProps) {
       className={cn(
         "inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-mono border transition-all cursor-default",
         active
-          ? "bg-[var(--accent)]/15 text-[var(--accent)] border-[var(--accent)]/40 font-semibold"
-          : "bg-[var(--surface-2)] text-[var(--muted)] border-[var(--border)] hover:border-[var(--accent)]/30 hover:text-[var(--text)]",
+          ? "bg-[var(--accent)]/15 text-[var(--accent)] border-[var(--accent)]/40 font-semibold shadow-sm shadow-[var(--accent)]/10"
+          : "bg-[var(--surface-2)] text-[var(--muted)] border-[var(--border)] hover:border-[var(--accent)]/40 hover:text-[var(--accent)] hover:bg-[var(--accent)]/5 transition-all",
         className,
       )}
       {...props}

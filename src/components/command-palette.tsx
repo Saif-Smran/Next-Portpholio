@@ -11,7 +11,6 @@ import {
   FolderGit2,
   Home,
   Mail,
-  Moon,
   PenSquare,
   Search,
   Sun,

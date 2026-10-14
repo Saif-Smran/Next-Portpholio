@@ -1,25 +1,52 @@
-import {
-  ArrowUpRight,
-  BookOpen,
-  CheckCircle2,
-  Compass,
-  FileText,
-  Users,
-} from "lucide-react";
-import Link from "next/link";
+import { BookOpen, CheckCircle2, FileText } from "lucide-react";
+import type { Metadata } from "next";
 import { MarkdownBody } from "@/components/markdown-body";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Chip } from "@/components/ui/chip";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { getPrimaryResearch, listEducation } from "@/lib/db";
 
-export const metadata = {
-  title: "Research & Thesis",
-  description:
-    "Undergraduate thesis on Tracking in High Density Crowd, computer vision benchmarks, and reading list.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const research = await getPrimaryResearch();
+  const title = research?.title
+    ? `${research.title} | Research & Thesis`
+    : "Research & Thesis | A.H.M. Saif Smran";
+  const description =
+    research?.abstract ||
+    "Undergraduate thesis on Tracking in High Density Crowd, computer vision benchmarks, and reading list by A.H.M. Saif Smran.";
+
+  return {
+    title,
+    description,
+    keywords: [
+      "Computer Vision",
+      "Crowd Tracking",
+      "VisDrone",
+      "Undergraduate Thesis",
+      "Deep Learning",
+      "Saif Smran",
+    ],
+    openGraph: {
+      title,
+      description,
+      url: "/research",
+      type: "article",
+      images: [
+        {
+          url: "/profile-pic.png",
+          alt: "Computer Vision Research - A.H.M. Saif Smran",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/profile-pic.png"],
+    },
+  };
+}
 
 export default async function ResearchPage() {
   const [research, educationList] = await Promise.all([

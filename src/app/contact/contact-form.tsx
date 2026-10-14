@@ -1,7 +1,6 @@
 "use client";
 
 import { AlertCircle, CheckCircle2, Send } from "lucide-react";
-import * as React from "react";
 import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
 import { type ContactFormState, submitContactMessage } from "./actions";

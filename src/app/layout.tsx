@@ -60,6 +60,15 @@ export const metadata: Metadata = {
     description:
       "Full-stack developer building robust TypeScript applications.",
   },
+  icons: {
+    icon: [
+      { url: "/icon.svg?v=2", type: "image/svg+xml" },
+      { url: "/icon-32.png?v=2", sizes: "32x32", type: "image/png" },
+      { url: "/favicon.ico?v=2", sizes: "any" },
+    ],
+    shortcut: "/favicon.ico?v=2",
+    apple: "/apple-icon.png?v=2",
+  },
 };
 
 export default function RootLayout({
@@ -75,6 +84,15 @@ export default function RootLayout({
       data-theme="dark"
     >
       <head>
+        <link rel="icon" href="/icon.svg?v=2" type="image/svg+xml" />
+        <link
+          rel="icon"
+          href="/icon-32.png?v=2"
+          type="image/png"
+          sizes="32x32"
+        />
+        <link rel="shortcut icon" href="/favicon.ico?v=2" />
+        <link rel="apple-touch-icon" href="/apple-icon.png?v=2" />
         {/* Zero-flash theme initialization script (defaults to dark theme) */}
         <script
           dangerouslySetInnerHTML={{
@@ -97,7 +115,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col bg-[var(--bg)] text-[var(--text)] font-sans antialiased selection:bg-[var(--accent)] selection:text-[#0A0B0D]">
         <AnalyticsTracker />
         <Header />
-        <main className="flex-1 w-full max-w-[1120px] mx-auto px-5 md:px-8 py-8 md:py-12">
+        <main className="flex-1 w-full max-w-7xl mx-auto px-5 md:px-8 py-8 md:py-12">
           {children}
         </main>
         <Footer />

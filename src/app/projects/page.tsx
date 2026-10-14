@@ -15,11 +15,54 @@ interface ProjectsPageProps {
   }>;
 }
 
-export const metadata = {
-  title: "Projects",
-  description:
-    "Full-stack web applications, platforms, and research prototypes built with Next.js, Express, and PostgreSQL.",
-};
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  searchParams,
+}: ProjectsPageProps): Promise<Metadata> {
+  const resolvedParams = await searchParams;
+  const stack = resolvedParams.stack;
+  const kind = resolvedParams.kind;
+  const q = resolvedParams.q;
+
+  let title = "Projects & Engineering Case Studies | A.H.M. Saif Smran";
+  let description =
+    "Explore full-stack applications, distributed platforms, and research prototypes built with Next.js, Express, PostgreSQL, and Prisma.";
+
+  if (stack && stack !== "all") {
+    title = `${stack} Projects | A.H.M. Saif Smran`;
+    description = `Production web apps, APIs, and systems engineered with ${stack} by A.H.M. Saif Smran.`;
+  } else if (kind && kind !== "all") {
+    title = `${kind.charAt(0).toUpperCase() + kind.slice(1)} Projects | A.H.M. Saif Smran`;
+  } else if (q) {
+    title = `Search: "${q}" in Projects | A.H.M. Saif Smran`;
+  }
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: "/projects",
+      type: "website",
+      images: [
+        {
+          url: "/profile-pic.png",
+          width: 800,
+          height: 800,
+          alt: "A.H.M. Saif Smran Portfolio Projects",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/profile-pic.png"],
+    },
+  };
+}
 
 export default async function ProjectsPage({
   searchParams,
@@ -40,7 +83,7 @@ export default async function ProjectsPage({
   ]);
 
   // Extract all unique stack skills
-  const allSkills = categories.flatMap((c) => c.skills.map((s) => s.name));
+  const _allSkills = categories.flatMap((c) => c.skills.map((s) => s.name));
   const popularStacks = [
     "all",
     "Next.js",

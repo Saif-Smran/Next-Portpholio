@@ -1,16 +1,43 @@
-import { ArrowUpRight, Award, Briefcase, GitCommit } from "lucide-react";
-import Link from "next/link";
+import { ArrowUpRight, Award } from "lucide-react";
+import type { Metadata } from "next";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { listCertifications, listExperiences } from "@/lib/db";
 import { formatDate } from "@/lib/utils";
 
-export const metadata = {
-  title: "Experience & Build Log",
-  description:
-    "Chronological timeline of client projects, engineering leadership, and peer mentoring.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const experiences = await listExperiences();
+  const latestRole = experiences[0]
+    ? `${experiences[0].title} at ${experiences[0].org}`
+    : "Software Engineering";
+
+  const title = "Experience & Engineering Log | A.H.M. Saif Smran";
+  const description = `Milestones, client projects, and engineering leadership spanning ${latestRole} and peer mentoring.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: "/experience",
+      type: "website",
+      images: [
+        {
+          url: "/profile-pic.png",
+          alt: "A.H.M. Saif Smran Experience Timeline",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/profile-pic.png"],
+    },
+  };
+}
 
 export default async function ExperiencePage() {
   const [experiences, certifications] = await Promise.all([

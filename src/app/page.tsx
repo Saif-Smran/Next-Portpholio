@@ -1,16 +1,23 @@
 import {
   ArrowRight,
   ArrowUpRight,
-  BookOpen,
   Calendar,
   Code2,
   Download,
   FolderGit2,
   Layers,
-  Sparkles,
-  Terminal,
+  Mail,
 } from "lucide-react";
+import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
+import {
+  FacebookIcon,
+  GithubIcon,
+  LinkedinIcon,
+  WhatsAppIcon,
+} from "@/components/icons";
+// import { IdentityCard } from "@/components/identityCard";
 import { ProjectCard } from "@/components/project-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -27,6 +34,39 @@ import {
   getSkillsCount,
 } from "@/lib/db";
 import { formatDate } from "@/lib/utils";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const profile = await getProfile();
+  const title = "A.H.M. Saif Smran | Full-stack Developer & Researcher";
+  const description =
+    profile?.bio ||
+    "Full-stack developer building robust TypeScript applications with Next.js, Express, Prisma, and PostgreSQL. Researching crowd tracking with computer vision.";
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: "/",
+      type: "website",
+      images: [
+        {
+          url: "/profile-pic.png",
+          width: 800,
+          height: 800,
+          alt: "A.H.M. Saif Smran - Full-stack Developer",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/profile-pic.png"],
+    },
+  };
+}
 
 export default async function HomePage() {
   const [
@@ -82,26 +122,36 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
       />
       {/* 1. HERO SECTION & TERMINAL CARD */}
-      <section className="pt-4 md:pt-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Left Text Column (7 cols) */}
-          <div className="lg:col-span-7 space-y-6">
+      <section className="relative pt-4 md:pt-10">
+        {/* Ambient background glows */}
+        <div className="absolute -top-16 -left-10 w-72 h-72 md:w-96 md:h-96 bg-[var(--accent)]/15 rounded-full blur-3xl pointer-events-none -z-10" />
+        <div className="absolute top-10 right-0 w-72 h-72 md:w-80 md:h-80 bg-[var(--accent-2)]/15 rounded-full blur-3xl pointer-events-none -z-10" />
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          {/* Left Text Column (Takes 6 cols = half width on desktop) */}
+          <div className="lg:col-span-6 space-y-6">
+            {/* Status Pill & Location */}
             <div className="flex flex-wrap items-center gap-3">
-              <Badge variant="accent" className="py-1 px-3 text-xs">
-                <span className="w-2 h-2 rounded-full bg-[var(--accent)] animate-pulse inline-block" />
+              <Badge
+                variant="accent"
+                className="py-1 px-3 text-xs shadow-sm bg-[var(--accent)]/15 border-[var(--accent)]/30 text-[var(--accent)]"
+              >
+                <span className="w-2 h-2 rounded-full bg-[var(--accent)] animate-pulse inline-block mr-1.5" />
                 {availabilityText}
               </Badge>
-              <span className="text-xs font-mono text-[var(--muted)]">
-                Dhaka, Bangladesh · UTC+6
-              </span>
+              <div className="text-xs font-mono text-[var(--muted)] flex items-center gap-1.5 bg-[var(--surface-2)]/70 px-2.5 py-1 rounded-full border border-[var(--border)]">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--accent-2)]" />
+                <span>Dhaka, Bangladesh · UTC+6</span>
+              </div>
             </div>
 
             <div className="space-y-3">
-              <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[var(--text)] leading-[1.08]">
+              <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[var(--text)] leading-[1.08]">
                 A.H.M. Saif Smran
               </h1>
-              <p className="font-mono text-sm md:text-base text-[var(--accent)] font-medium">
-                Full-stack developer. Building toward data science and research.
+              <p className="font-mono text-sm md:text-base text-[var(--accent)] font-medium flex items-center gap-2">
+                <span className="inline-block w-2.5 h-0.5 bg-[var(--accent)]" />
+                <span>Full-stack developer · Computer vision researcher</span>
               </p>
             </div>
 
@@ -111,27 +161,37 @@ export default async function HomePage() {
             </p>
 
             {/* Currently line pulled from now */}
-            <div className="p-3 rounded-lg border border-[var(--border)] bg-[var(--surface-2)]/40 font-mono text-xs flex items-center gap-2 max-w-xl">
+            <div className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface-2)]/60 font-mono text-xs flex items-center gap-2 max-w-xl shadow-sm hover:border-[var(--accent)]/40 transition-colors">
               <span className="text-[var(--accent)] font-bold">currently:</span>
               <span className="text-[var(--muted)] truncate">
                 Crowd tracking research on VisDrone · Final-year thesis
               </span>
               <Link
                 href="/now"
-                className="ml-auto text-[var(--accent-2)] hover:underline flex items-center gap-0.5 shrink-0"
+                className="ml-auto text-[var(--accent-2)] hover:underline flex items-center gap-0.5 shrink-0 font-semibold"
               >
                 /now <ArrowUpRight className="w-3 h-3" />
               </Link>
             </div>
 
             {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <Button asChild size="lg" variant="primary">
+            <div className="flex flex-wrap items-center gap-3 pt-1">
+              <Button
+                asChild
+                size="lg"
+                variant="primary"
+                className="shadow-lg shadow-[var(--accent)]/15"
+              >
                 <Link href="/projects" className="gap-2">
                   View Projects <ArrowRight className="w-4 h-4" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="secondary">
+              <Button
+                asChild
+                size="lg"
+                variant="secondary"
+                className="border-[var(--border)] hover:border-[var(--accent)]"
+              >
                 <a
                   href="/resume.pdf"
                   target="_blank"
@@ -142,117 +202,178 @@ export default async function HomePage() {
                   CV
                 </a>
               </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="ghost"
+                className="text-[var(--muted)] hover:text-[var(--text)]"
+              >
+                <Link href="/contact" className="gap-1.5">
+                  <Mail className="w-4 h-4 text-[var(--accent-2)]" /> Get in
+                  Touch
+                </Link>
+              </Button>
+            </div>
+
+            {/* Quick Social & Contact Channels */}
+            <div className="pt-2 flex flex-wrap items-center gap-2 font-mono text-xs text-[var(--muted)]">
+              <span className="text-[11px] text-[var(--muted)]/70">
+                Connect:
+              </span>
+              <a
+                href="https://github.com/Saif-Smran"
+                target="_blank"
+                rel="noreferrer"
+                className="p-2 rounded-lg bg-[var(--surface-2)] border border-[var(--border)] hover:border-[var(--accent)] hover:text-[var(--text)] transition-colors inline-flex items-center gap-1.5"
+                title="GitHub"
+              >
+                <GithubIcon className="w-3.5 h-3.5 text-[var(--accent)]" />
+                <span className="hidden sm:inline text-[11px]">GitHub</span>
+              </a>
+              <a
+                href="https://www.linkedin.com/in/a-h-m-saif-smran"
+                target="_blank"
+                rel="noreferrer"
+                className="p-2 rounded-lg bg-[var(--surface-2)] border border-[var(--border)] hover:border-[var(--accent-2)] hover:text-[var(--text)] transition-colors inline-flex items-center gap-1.5"
+                title="LinkedIn"
+              >
+                <LinkedinIcon className="w-3.5 h-3.5 text-[var(--accent-2)]" />
+                <span className="hidden sm:inline text-[11px]">LinkedIn</span>
+              </a>
+              <a
+                href="https://www.facebook.com/saif.smran.1"
+                target="_blank"
+                rel="noreferrer"
+                className="p-2 rounded-lg bg-[var(--surface-2)] border border-[var(--border)] hover:border-blue-400 hover:text-blue-400 transition-colors inline-flex items-center gap-1.5"
+                title="Facebook"
+              >
+                <FacebookIcon className="w-3.5 h-3.5 text-blue-400" />
+                <span className="hidden sm:inline text-[11px]">Facebook</span>
+              </a>
+              <a
+                href="https://wa.me/8801521468295"
+                target="_blank"
+                rel="noreferrer"
+                className="p-2 rounded-lg bg-[var(--surface-2)] border border-[var(--border)] hover:border-emerald-400 hover:text-emerald-400 transition-colors inline-flex items-center gap-1.5"
+                title="WhatsApp"
+              >
+                <WhatsAppIcon className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="hidden sm:inline text-[11px]">WhatsApp</span>
+              </a>
             </div>
           </div>
 
-          {/* Right Column: Terminal Card (5 cols) */}
-          <div className="lg:col-span-5">
-            <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] shadow-lg overflow-hidden font-mono text-xs hover-card">
-              {/* Window bar */}
-              <div className="px-4 py-2.5 border-b border-[var(--border)] bg-[var(--surface-2)] flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56] inline-block" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E] inline-block" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#27C93F] inline-block" />
-                </div>
-                <span className="text-[11px] text-[var(--muted)]">
-                  saif@developer:~
-                </span>
-                <Terminal className="w-3.5 h-3.5 text-[var(--muted)]" />
-              </div>
+          {/* Right Column: Hero Profile Image (Takes 6 cols = half width on desktop) */}
+          <div className="lg:col-span-6 flex justify-center lg:justify-end">
+            <div className="relative w-full max-w-[460px] aspect-square group">
+              {/* Vibrant multi-layer ambient glow halos */}
+              <div className="absolute -inset-3 rounded-3xl bg-gradient-to-tr from-[var(--accent)]/30 via-emerald-500/20 to-[var(--accent-2)]/30 blur-2xl opacity-75 group-hover:opacity-100 transition duration-500" />
+              <div className="absolute -inset-1 rounded-3xl bg-gradient-to-tr from-[var(--accent)] via-[var(--accent-2)] to-emerald-400 opacity-60 blur-sm" />
 
-              {/* Terminal content */}
-              <div className="p-5 space-y-3.5 text-[12px]">
-                <div className="text-[var(--muted)]">
-                  <span className="text-[var(--accent)]">$</span> cat
-                  identity.json
-                </div>
+              {/* Main image container taking full half width */}
+              <div className="relative w-full h-full rounded-3xl overflow-hidden border-2 border-[var(--border)] bg-[var(--surface-2)] shadow-2xl">
+                <Image
+                  src="/profile-pic.png"
+                  alt="A.H.M. Saif Smran"
+                  width={500}
+                  height={500}
+                  priority
+                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                />
 
-                <div className="space-y-2 border-l-2 border-[var(--border)] pl-3 text-[var(--text)]">
-                  <div className="flex justify-between">
-                    <span className="text-[var(--muted)]">role:</span>
-                    <span className="font-semibold text-[var(--text)]">
-                      Full-stack Developer
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[var(--muted)]">direction:</span>
-                    <span className="text-[var(--accent)]">
-                      Data Science & Research
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[var(--muted)]">core_stack:</span>
-                    <span className="text-[var(--accent-2)]">
-                      Next.js · Prisma · Postgres
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[var(--muted)]">location:</span>
-                    <span>Dhaka, Bangladesh</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[var(--muted)]">education:</span>
-                    <span>BSc CSE, IUBAT (2027)</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[var(--muted)]">thesis:</span>
-                    <span>High Density Crowd Tracking</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[var(--muted)]">seeking:</span>
-                    <span className="text-[var(--success)] font-medium">
-                      Remote Internship
-                    </span>
-                  </div>
-                </div>
-
-                <div className="pt-2 border-t border-[var(--border)] flex items-center justify-between text-[11px]">
-                  <span className="text-[var(--muted)]">branch: main</span>
-                  <span className="text-[var(--accent)] flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />{" "}
-                    live
+                {/* Top-right floating status badge */}
+                <div className="absolute top-4 right-4 bg-[var(--surface)]/90 backdrop-blur-md border border-[var(--border)] px-3.5 py-1.5 rounded-full font-mono text-xs flex items-center gap-2 shadow-xl">
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--success)] opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--success)]" />
                   </span>
+                  <span className="text-[var(--text)] font-semibold text-[11px]">
+                    Available for work
+                  </span>
+                </div>
+
+                {/* Bottom glassmorphic identity tag */}
+                <div className="absolute bottom-4 inset-x-4 p-3.5 rounded-2xl bg-[var(--surface)]/90 backdrop-blur-md border border-[var(--border)] shadow-xl font-mono text-xs flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <div className="text-[var(--text)] font-semibold flex items-center gap-1.5">
+                      <span className="text-[var(--accent)] font-bold">$</span>{" "}
+                      saif@developer:~
+                    </div>
+                    <div className="text-[11px] text-[var(--muted)]">
+                      Full-stack & Computer Vision
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <span className="inline-block text-[10px] px-2.5 py-1 rounded-full bg-[var(--accent)]/15 text-[var(--accent)] border border-[var(--accent)]/30 font-bold">
+                      UTC+6
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Terminal Identity Card (Positioned beneath 50/50 hero) */}
+        {/* <IdentityCard /> */}
       </section>
 
-      {/* 2. PROOF STRIP (Accurate counts from DB) */}
-      <section className="border-y border-[var(--border)] py-8 bg-[var(--surface)]/40 -mx-5 md:-mx-8 px-5 md:px-8">
-        <div className="max-w-[1120px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 font-mono">
-          <div className="space-y-1">
-            <div className="font-heading text-3xl md:text-4xl font-bold text-[var(--text)]">
-              {projectsCount || 6}
+      {/* 2. PROOF STRIP (Accurate counts from DB with vibrant colored cards) */}
+      <section className="border-y border-[var(--border)] py-8 bg-[var(--surface-2)]/30 -mx-5 md:-mx-8 px-5 md:px-8">
+        <div className="max-w-[1120px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 font-mono">
+          <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] hover:border-emerald-500/40 transition-all flex items-center gap-3.5 shadow-sm glow-card">
+            <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+              <FolderGit2 className="w-5 h-5" />
             </div>
-            <div className="text-xs text-[var(--muted)] uppercase tracking-wider">
-              Projects Shipped
-            </div>
-          </div>
-          <div className="space-y-1">
-            <div className="font-heading text-3xl md:text-4xl font-bold text-[var(--accent)]">
-              {skillsCount || 24}+
-            </div>
-            <div className="text-xs text-[var(--muted)] uppercase tracking-wider">
-              Technologies
+            <div>
+              <div className="font-heading text-2xl sm:text-3xl font-bold text-[var(--text)]">
+                {projectsCount || 6}
+              </div>
+              <div className="text-[11px] text-[var(--muted)] uppercase tracking-wider">
+                Projects Shipped
+              </div>
             </div>
           </div>
-          <div className="space-y-1">
-            <div className="font-heading text-3xl md:text-4xl font-bold text-[var(--accent-2)]">
-              3+
+
+          <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] hover:border-sky-500/40 transition-all flex items-center gap-3.5 shadow-sm glow-card">
+            <div className="w-10 h-10 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 shrink-0">
+              <Code2 className="w-5 h-5" />
             </div>
-            <div className="text-xs text-[var(--muted)] uppercase tracking-wider">
-              Years Coding
+            <div>
+              <div className="font-heading text-2xl sm:text-3xl font-bold text-[var(--accent)]">
+                {skillsCount || 24}+
+              </div>
+              <div className="text-[11px] text-[var(--muted)] uppercase tracking-wider">
+                Technologies
+              </div>
             </div>
           </div>
-          <div className="space-y-1">
-            <div className="font-heading text-3xl md:text-4xl font-bold text-[var(--text)]">
-              25+
+
+          <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] hover:border-indigo-500/40 transition-all flex items-center gap-3.5 shadow-sm glow-card">
+            <div className="w-10 h-10 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shrink-0">
+              <Calendar className="w-5 h-5" />
             </div>
-            <div className="text-xs text-[var(--muted)] uppercase tracking-wider">
-              GitHub Repos
+            <div>
+              <div className="font-heading text-2xl sm:text-3xl font-bold text-[var(--accent-2)]">
+                3+
+              </div>
+              <div className="text-[11px] text-[var(--muted)] uppercase tracking-wider">
+                Years Coding
+              </div>
+            </div>
+          </div>
+
+          <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] hover:border-amber-500/40 transition-all flex items-center gap-3.5 shadow-sm glow-card">
+            <div className="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shrink-0">
+              <Layers className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="font-heading text-2xl sm:text-3xl font-bold text-[var(--text)]">
+                25+
+              </div>
+              <div className="text-[11px] text-[var(--muted)] uppercase tracking-wider">
+                GitHub Repos
+              </div>
             </div>
           </div>
         </div>

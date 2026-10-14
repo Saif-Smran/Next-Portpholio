@@ -1,15 +1,40 @@
-import { ArrowRight, Calendar, Clock } from "lucide-react";
-import Link from "next/link";
+import { Clock } from "lucide-react";
+import type { Metadata } from "next";
 import { MarkdownBody } from "@/components/markdown-body";
 import { Card } from "@/components/ui/card";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { getProfile } from "@/lib/db";
 
-export const metadata = {
-  title: "Now",
-  description:
-    "What A.H.M. Saif Smran is focused on this month. Projects, research, and current reading.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const profile = await getProfile();
+  const title = "What I'm Doing Now | A.H.M. Saif Smran";
+  const description =
+    profile?.bio ||
+    "Current engineering focus, undergraduate thesis progress, and reading list updated monthly by A.H.M. Saif Smran.";
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: "/now",
+      type: "website",
+      images: [
+        {
+          url: "/profile-pic.png",
+          alt: "A.H.M. Saif Smran Now Page",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/profile-pic.png"],
+    },
+  };
+}
 
 export default async function NowPage() {
   const profile = await getProfile();

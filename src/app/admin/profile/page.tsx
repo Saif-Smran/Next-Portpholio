@@ -1,4 +1,4 @@
-import { Clock, Save, User } from "lucide-react";
+import { Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { getProfile } from "@/lib/db";
@@ -28,7 +28,10 @@ export default async function AdminProfilePage() {
         <form action={updateProfileAction} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label htmlFor="profile-name" className="text-[var(--text)] font-semibold block">
+              <label
+                htmlFor="profile-name"
+                className="text-[var(--text)] font-semibold block"
+              >
                 Full Name
               </label>
               <input
@@ -42,7 +45,10 @@ export default async function AdminProfilePage() {
             </div>
 
             <div className="space-y-1.5">
-              <label htmlFor="profile-email" className="text-[var(--text)] font-semibold block">
+              <label
+                htmlFor="profile-email"
+                className="text-[var(--text)] font-semibold block"
+              >
                 Email Address
               </label>
               <input
@@ -57,7 +63,10 @@ export default async function AdminProfilePage() {
           </div>
 
           <div className="space-y-1.5">
-            <label htmlFor="profile-headline" className="text-[var(--text)] font-semibold block">
+            <label
+              htmlFor="profile-headline"
+              className="text-[var(--text)] font-semibold block"
+            >
               Headline / One-Liner
             </label>
             <input
@@ -75,7 +84,10 @@ export default async function AdminProfilePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-1.5">
-              <label htmlFor="profile-location" className="text-[var(--text)] font-semibold block">
+              <label
+                htmlFor="profile-location"
+                className="text-[var(--text)] font-semibold block"
+              >
                 Location
               </label>
               <input
@@ -89,7 +101,10 @@ export default async function AdminProfilePage() {
             </div>
 
             <div className="space-y-1.5">
-              <label htmlFor="profile-availability" className="text-[var(--text)] font-semibold block">
+              <label
+                htmlFor="profile-availability"
+                className="text-[var(--text)] font-semibold block"
+              >
                 Availability Status
               </label>
               <select
@@ -105,7 +120,10 @@ export default async function AdminProfilePage() {
             </div>
 
             <div className="space-y-1.5">
-              <label htmlFor="profile-note" className="text-[var(--text)] font-semibold block">
+              <label
+                htmlFor="profile-note"
+                className="text-[var(--text)] font-semibold block"
+              >
                 Availability Note
               </label>
               <input
@@ -121,7 +139,10 @@ export default async function AdminProfilePage() {
           </div>
 
           <div className="space-y-1.5">
-            <label htmlFor="profile-bio" className="text-[var(--text)] font-semibold block">
+            <label
+              htmlFor="profile-bio"
+              className="text-[var(--text)] font-semibold block"
+            >
               Bio (Markdown / Prose)
             </label>
             <textarea
@@ -134,7 +155,10 @@ export default async function AdminProfilePage() {
           </div>
 
           <div className="space-y-1.5">
-            <label htmlFor="profile-now" className="text-[var(--text)] font-semibold block">
+            <label
+              htmlFor="profile-now"
+              className="text-[var(--text)] font-semibold block"
+            >
               /now Text (Markdown - Content displayed on /now page)
             </label>
             <textarea

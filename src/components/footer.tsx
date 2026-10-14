@@ -1,11 +1,11 @@
 import { ArrowUpRight, GitBranch, Mail } from "lucide-react";
 import Link from "next/link";
 import { getProfile, getSocialLinks } from "@/lib/db";
-import { GithubIcon, LinkedinIcon } from "./icons";
+import { FacebookIcon, GithubIcon, LinkedinIcon, WhatsAppIcon } from "./icons";
 
 export async function Footer() {
   const profile = await getProfile();
-  const socialLinks = await getSocialLinks();
+  const _socialLinks = await getSocialLinks();
 
   const availabilityText =
     profile?.availability === "open"
@@ -155,6 +155,27 @@ export async function Footer() {
               >
                 <LinkedinIcon className="w-3.5 h-3.5 text-[var(--accent-2)]" />{" "}
                 LinkedIn
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.facebook.com/saif.smran.1"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-[var(--text)] transition-colors inline-flex items-center gap-1.5"
+              >
+                <FacebookIcon className="w-3.5 h-3.5 text-blue-400" /> Facebook
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://wa.me/8801521468295"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-[var(--text)] transition-colors inline-flex items-center gap-1.5"
+              >
+                <WhatsAppIcon className="w-3.5 h-3.5 text-emerald-400" />{" "}
+                WhatsApp
               </a>
             </li>
             <li>

@@ -1,5 +1,5 @@
-import { Download, ExternalLink, FileText, Mail, MapPin } from "lucide-react";
-import Link from "next/link";
+import { Download, ExternalLink, Mail, MapPin } from "lucide-react";
+import type { Metadata } from "next";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -12,11 +12,36 @@ import {
 } from "@/lib/db";
 import { formatDate } from "@/lib/utils";
 
-export const metadata = {
-  title: "Resume & Curriculum Vitae",
-  description:
-    "Curriculum Vitae and background of A.H.M. Saif Smran. Education, experience, core stack, and PDF download.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const profile = await getProfile();
+  const title = "Resume & Curriculum Vitae | A.H.M. Saif Smran";
+  const description =
+    profile?.bio ||
+    "Curriculum Vitae and background of A.H.M. Saif Smran. Education at IUBAT, experience, core stack, and downloadable PDF.";
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: "/resume",
+      type: "profile",
+      images: [
+        {
+          url: "/profile-pic.png",
+          alt: "A.H.M. Saif Smran Curriculum Vitae",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/profile-pic.png"],
+    },
+  };
+}
 
 export default async function ResumePage() {
   const [profile, educationList, experiences, categories] = await Promise.all([
@@ -28,8 +53,8 @@ export default async function ResumePage() {
 
   const envResumeLink = process.env.RESUME_LINK || process.env.RESUME_URL;
   let embedUrl: string | null = null;
-  if (envResumeLink && envResumeLink.includes('drive.google.com')) {
-    embedUrl = envResumeLink.replace(/\/view(\?.*)?$/, '/preview');
+  if (envResumeLink?.includes("drive.google.com")) {
+    embedUrl = envResumeLink.replace(/\/view(\?.*)?$/, "/preview");
   }
 
   return (
@@ -83,7 +108,9 @@ export default async function ResumePage() {
         <Card className="overflow-hidden border-[var(--border)] bg-[var(--surface)] p-2">
           <div className="px-4 py-2 border-b border-[var(--border)] text-xs font-mono text-[var(--muted)] flex items-center justify-between">
             <span>Embedded PDF Document Viewer</span>
-            <span className="text-[var(--accent)] font-semibold">Live Preview</span>
+            <span className="text-[var(--accent)] font-semibold">
+              Live Preview
+            </span>
           </div>
           <iframe
             src={embedUrl}

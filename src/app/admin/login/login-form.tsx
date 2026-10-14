@@ -1,7 +1,6 @@
 "use client";
 
 import { AlertCircle, ArrowRight, Lock, Mail } from "lucide-react";
-import * as React from "react";
 import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
 import { loginAdminAction } from "../actions";
@@ -19,7 +18,10 @@ export function LoginForm() {
       )}
 
       <div className="space-y-1.5">
-        <label htmlFor="admin-email" className="text-[var(--text)] font-semibold block">
+        <label
+          htmlFor="admin-email"
+          className="text-[var(--text)] font-semibold block"
+        >
           Admin Email
         </label>
         <div className="relative">
@@ -37,7 +39,10 @@ export function LoginForm() {
       </div>
 
       <div className="space-y-1.5">
-        <label htmlFor="admin-password" className="text-[var(--text)] font-semibold block">
+        <label
+          htmlFor="admin-password"
+          className="text-[var(--text)] font-semibold block"
+        >
           Password
         </label>
         <div className="relative">

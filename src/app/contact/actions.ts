@@ -1,6 +1,6 @@
 "use server";
 
-import crypto from "crypto";
+import crypto from "node:crypto";
 import { headers } from "next/headers";
 import { createMessage } from "@/lib/db";
 import { checkRateLimit } from "@/lib/rate-limit";
@@ -13,7 +13,7 @@ export interface ContactFormState {
 }
 
 export async function submitContactMessage(
-  prevState: ContactFormState,
+  _prevState: ContactFormState,
   formData: FormData,
 ): Promise<ContactFormState> {
   const rawData = {
@@ -80,15 +80,7 @@ export async function submitContactMessage(
       process.env.SMTP_USER &&
       process.env.SMTP_PASS
     ) {
-      try {
-        // Asynchronously send without blocking
-        // Optional SMTP
-      } catch (emailErr) {
-        console.error(
-          "Optional SMTP notification failed, but message is safely saved:",
-          emailErr,
-        );
-      }
+      // Background SMTP notification hook if configured
     }
 
     return {

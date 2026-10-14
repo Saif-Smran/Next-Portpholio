@@ -63,7 +63,10 @@ export function PostForm({ initialData }: PostFormProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <label htmlFor="post-title" className="text-[var(--text)] font-semibold block">
+          <label
+            htmlFor="post-title"
+            className="text-[var(--text)] font-semibold block"
+          >
             Post Title *
           </label>
           <input
@@ -78,7 +81,10 @@ export function PostForm({ initialData }: PostFormProps) {
         </div>
 
         <div className="space-y-1.5">
-          <label htmlFor="post-slug" className="text-[var(--text)] font-semibold block">
+          <label
+            htmlFor="post-slug"
+            className="text-[var(--text)] font-semibold block"
+          >
             URL Slug *
           </label>
           <input
@@ -94,7 +100,10 @@ export function PostForm({ initialData }: PostFormProps) {
       </div>
 
       <div className="space-y-1.5">
-        <label htmlFor="post-excerpt" className="text-[var(--text)] font-semibold block">
+        <label
+          htmlFor="post-excerpt"
+          className="text-[var(--text)] font-semibold block"
+        >
           Excerpt (1-2 sentences for preview) *
         </label>
         <textarea
@@ -110,7 +119,10 @@ export function PostForm({ initialData }: PostFormProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <label htmlFor="post-tags" className="text-[var(--text)] font-semibold block">
+          <label
+            htmlFor="post-tags"
+            className="text-[var(--text)] font-semibold block"
+          >
             Comma-Separated Tags
           </label>
           <input
@@ -124,7 +136,10 @@ export function PostForm({ initialData }: PostFormProps) {
         </div>
 
         <div className="space-y-1.5">
-          <label htmlFor="post-cover" className="text-[var(--text)] font-semibold block">
+          <label
+            htmlFor="post-cover"
+            className="text-[var(--text)] font-semibold block"
+          >
             Cover Image URL (optional)
           </label>
           <input
@@ -139,7 +154,10 @@ export function PostForm({ initialData }: PostFormProps) {
       </div>
 
       <div className="py-2 border-y border-[var(--border)]">
-        <label htmlFor="post-published" className="flex items-center gap-2 cursor-pointer text-sm font-sans text-[var(--text)]">
+        <label
+          htmlFor="post-published"
+          className="flex items-center gap-2 cursor-pointer text-sm font-sans text-[var(--text)]"
+        >
           <input
             id="post-published"
             type="checkbox"
@@ -154,7 +172,10 @@ export function PostForm({ initialData }: PostFormProps) {
       {/* Markdown Body with Live Preview */}
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <label htmlFor="post-body" className="text-[var(--text)] font-semibold block">
+          <label
+            htmlFor="post-body"
+            className="text-[var(--text)] font-semibold block"
+          >
             Post Body (Markdown) *
           </label>
           <button

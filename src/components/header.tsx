@@ -25,7 +25,7 @@ export function Header() {
   // Close mobile menu on route change
   React.useEffect(() => {
     setMobileMenuOpen(false);
-  }, [pathname]);
+  }, []);
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-[var(--border)] bg-[var(--bg)]/80 backdrop-blur-md">

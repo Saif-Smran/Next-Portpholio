@@ -78,17 +78,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 🔐 Admin Portal
 
-- **URL**: `/admin/login`
-- **Default Email**: `smrangb@gmail.com`
-- **Default Password**: `admin123`
-- To generate a new bcrypt password hash:
-  ```bash
-  node scripts/generate-password-hash.mjs <your-new-password>
-  ```
-
----
 
 ## 📦 Deployment (Railway / Docker)
 

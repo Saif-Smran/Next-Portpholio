@@ -1,14 +1,4 @@
-import {
-  ArrowLeft,
-  ArrowRight,
-  ArrowUpRight,
-  Briefcase,
-  Calendar,
-  CheckCircle2,
-  Layers,
-  Terminal,
-  Users,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -16,7 +6,6 @@ import { GithubIcon } from "@/components/icons";
 import { MarkdownBody } from "@/components/markdown-body";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Chip } from "@/components/ui/chip";
 import { getAdjacentProjects, getProjectBySlug } from "@/lib/db";
 
@@ -26,19 +15,46 @@ interface ProjectDetailPageProps {
   }>;
 }
 
-export async function generateMetadata({ params }: ProjectDetailPageProps) {
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: ProjectDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
   const project = await getProjectBySlug(slug);
 
-  if (!project) return { title: "Project Not Found" };
+  if (!project) return { title: "Project Not Found | Saif Smran" };
+
+  const stackNames = project.skills.map((s) => s.skill.name);
+  const image = project.coverImage || "/profile-pic.png";
 
   return {
-    title: project.title,
+    title: `${project.title} | Case Study`,
     description: project.summary,
+    keywords: [
+      project.title,
+      ...stackNames,
+      "Architecture",
+      "Software Engineering",
+      "Saif Smran",
+    ],
     openGraph: {
+      title: `${project.title} - Architecture & Engineering Case Study`,
+      description: project.summary,
+      url: `/projects/${project.slug}`,
+      type: "article",
+      images: [
+        {
+          url: image,
+          alt: project.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
       title: `${project.title} | Case Study`,
       description: project.summary,
-      images: project.coverImage ? [project.coverImage] : [],
+      images: [image],
     },
   };
 }

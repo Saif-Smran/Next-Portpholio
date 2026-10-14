@@ -1,15 +1,56 @@
-import { ArrowUpRight, FolderGit2 } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { getGroupedSkills, SKILL_LEVEL_LABELS } from "@/lib/db";
 
-export const metadata = {
-  title: "Skills & Tech Stack",
-  description:
-    "Categorized technical skills with proficiency levels and linked project implementations.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const categories = await getGroupedSkills();
+  const topSkills = categories
+    .flatMap((c) => c.skills.filter((s) => s.featured).map((s) => s.name))
+    .slice(0, 8)
+    .join(", ");
+
+  const title = "Skills & Tech Stack | A.H.M. Saif Smran";
+  const description = `Categorized engineering skills with proficiency levels: ${topSkills}, and linked project implementations.`;
+
+  return {
+    title,
+    description,
+    keywords: [
+      "TypeScript",
+      "Next.js",
+      "React",
+      "Node.js",
+      "Express",
+      "Prisma",
+      "PostgreSQL",
+      "Computer Vision",
+      "Python",
+      "Saif Smran",
+    ],
+    openGraph: {
+      title,
+      description,
+      url: "/skills",
+      type: "website",
+      images: [
+        {
+          url: "/profile-pic.png",
+          alt: "A.H.M. Saif Smran Tech Stack",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/profile-pic.png"],
+    },
+  };
+}
 
 export default async function SkillsPage() {
   const categories = await getGroupedSkills();

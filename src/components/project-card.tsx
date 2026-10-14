@@ -1,7 +1,6 @@
 import { ArrowUpRight, Folder } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 import { GithubIcon } from "./icons";
 import { Badge } from "./ui/badge";
 import { Card } from "./ui/card";

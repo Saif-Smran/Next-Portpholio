@@ -1,4 +1,4 @@
-import { ArrowRight, Calendar, Search, Tag } from "lucide-react";
+import { ArrowRight, Calendar, Search } from "lucide-react";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Chip } from "@/components/ui/chip";
@@ -14,11 +14,49 @@ interface BlogPageProps {
   }>;
 }
 
-export const metadata = {
-  title: "Blog & Build Logs",
-  description:
-    "Technical writeups on architectural decisions, race condition fixes, Stripe payments, and computer vision research.",
-};
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  searchParams,
+}: BlogPageProps): Promise<Metadata> {
+  const resolvedParams = await searchParams;
+  const tag = resolvedParams.tag;
+  const q = resolvedParams.q;
+
+  let title = "Blog & Engineering Build Logs | A.H.M. Saif Smran";
+  let description =
+    "In-depth technical writeups on architectural decisions, race conditions, PostgreSQL migrations, Stripe payments, and computer vision research.";
+
+  if (tag && tag !== "all") {
+    title = `${tag} Articles & Engineering Logs | Saif Smran`;
+    description = `Technical articles, design patterns, and case studies focused on ${tag} by A.H.M. Saif Smran.`;
+  } else if (q) {
+    title = `Search: "${q}" in Blog | Saif Smran`;
+  }
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: "/blog",
+      type: "website",
+      images: [
+        {
+          url: "/profile-pic.png",
+          alt: "A.H.M. Saif Smran Blog & Build Logs",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/profile-pic.png"],
+    },
+  };
+}
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
   const resolvedParams = await searchParams;

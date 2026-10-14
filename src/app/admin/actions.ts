@@ -10,7 +10,7 @@ import {
 import { prisma } from "@/lib/db";
 import { checkRateLimit, resetRateLimit } from "@/lib/rate-limit";
 
-export async function loginAdminAction(prevState: any, formData: FormData) {
+export async function loginAdminAction(_prevState: any, formData: FormData) {
   const rawEmail = (formData.get("email") as string) || "";
   const password = (formData.get("password") as string) || "";
   const email = rawEmail.trim().toLowerCase();
@@ -21,7 +21,9 @@ export async function loginAdminAction(prevState: any, formData: FormData) {
     return { error: "Too many failed login attempts. Please wait 15 minutes." };
   }
 
-  const configuredEmail = (process.env.ADMIN_EMAIL || "smrangb@gmail.com").trim().toLowerCase();
+  const configuredEmail = (process.env.ADMIN_EMAIL || "smrangb@gmail.com")
+    .trim()
+    .toLowerCase();
   if (email !== configuredEmail) {
     return { error: "Invalid admin credentials." };
   }

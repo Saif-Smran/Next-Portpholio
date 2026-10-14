@@ -54,12 +54,16 @@ export function ThemeToggle() {
       {theme === "dark" ? (
         <>
           <Sun className="h-4 w-4 text-[var(--accent)]" />
-          <span className="hidden sm:inline text-[var(--muted)] text-[11px]">Dark</span>
+          <span className="hidden sm:inline text-[var(--muted)] text-[11px]">
+            Dark
+          </span>
         </>
       ) : (
         <>
           <Moon className="h-4 w-4 text-[var(--accent-2)]" />
-          <span className="hidden sm:inline text-[var(--muted)] text-[11px]">Light</span>
+          <span className="hidden sm:inline text-[var(--muted)] text-[11px]">
+            Light
+          </span>
         </>
       )}
     </Button>

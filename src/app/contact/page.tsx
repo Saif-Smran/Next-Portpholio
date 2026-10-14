@@ -1,14 +1,25 @@
 import { ArrowUpRight, Clock, Mail, MapPin, ShieldCheck } from "lucide-react";
-import { GithubIcon, LinkedinIcon } from "@/components/icons";
+import {
+  FacebookIcon,
+  GithubIcon,
+  LinkedinIcon,
+  WhatsAppIcon,
+} from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ContactForm } from "./contact-form";
 
 export const metadata = {
-  title: "Contact",
+  title: "Contact & Collaboration | A.H.M. Saif Smran",
   description:
-    "Get in touch with A.H.M. Saif Smran regarding remote internships, engineering roles, and research collaborations.",
+    "Get in touch with A.H.M. Saif Smran regarding remote software engineering internships, full-stack applications, and computer vision research.",
+  openGraph: {
+    title: "Contact A.H.M. Saif Smran",
+    description:
+      "Available for remote full-stack developer internships and research collaborations. Direct channels via Email, WhatsApp, and LinkedIn.",
+    url: "/contact",
+  },
 };
 
 export default function ContactPage() {
@@ -52,13 +63,36 @@ export default function ContactPage() {
               <span className="text-[var(--text)] font-semibold block">
                 Direct Channels:
               </span>
-              <ul className="space-y-2">
+              <ul className="space-y-2.5">
                 <li>
                   <a
                     href="mailto:smrangb@gmail.com"
-                    className="text-[var(--accent)] hover:underline inline-flex items-center gap-1.5"
+                    className="text-[var(--accent)] hover:underline inline-flex items-center gap-2"
                   >
-                    <Mail className="w-3.5 h-3.5" /> smrangb@gmail.com
+                    <Mail className="w-4 h-4" /> smrangb@gmail.com
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://wa.me/8801521468295"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-emerald-400 hover:underline inline-flex items-center gap-2"
+                  >
+                    <WhatsAppIcon className="w-4 h-4 text-emerald-400" />{" "}
+                    WhatsApp: +880 1521-468295{" "}
+                    <ArrowUpRight className="w-3 h-3" />
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.facebook.com/saif.smran.1"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-blue-400 hover:underline inline-flex items-center gap-2"
+                  >
+                    <FacebookIcon className="w-4 h-4 text-blue-400" /> Facebook
+                    Profile <ArrowUpRight className="w-3 h-3" />
                   </a>
                 </li>
                 <li>
@@ -66,9 +100,9 @@ export default function ContactPage() {
                     href="https://www.linkedin.com/in/a-h-m-saif-smran"
                     target="_blank"
                     rel="noreferrer"
-                    className="text-[var(--accent-2)] hover:underline inline-flex items-center gap-1.5"
+                    className="text-[var(--accent-2)] hover:underline inline-flex items-center gap-2"
                   >
-                    <LinkedinIcon className="w-3.5 h-3.5" /> LinkedIn Profile{" "}
+                    <LinkedinIcon className="w-4 h-4" /> LinkedIn Profile{" "}
                     <ArrowUpRight className="w-3 h-3" />
                   </a>
                 </li>
@@ -77,9 +111,9 @@ export default function ContactPage() {
                     href="https://github.com/Saif-Smran"
                     target="_blank"
                     rel="noreferrer"
-                    className="text-[var(--text)] hover:underline inline-flex items-center gap-1.5"
+                    className="text-[var(--text)] hover:underline inline-flex items-center gap-2"
                   >
-                    <GithubIcon className="w-3.5 h-3.5" /> GitHub Profile{" "}
+                    <GithubIcon className="w-4 h-4" /> GitHub Profile{" "}
                     <ArrowUpRight className="w-3 h-3" />
                   </a>
                 </li>

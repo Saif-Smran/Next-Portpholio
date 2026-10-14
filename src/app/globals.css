@@ -9,6 +9,8 @@
   --muted: #64748b;
   --accent: #16a34a;
   --accent-2: #2563eb;
+  --accent-3: #7c3aed;
+  --accent-4: #0284c7;
   --danger: #dc2626;
   --success: #16a34a;
   --warn: #d97706;
@@ -26,6 +28,8 @@
   --muted: #94a3b8;
   --accent: #b6f24a;
   --accent-2: #60a5fa;
+  --accent-3: #a78bfa;
+  --accent-4: #38bdf8;
   --danger: #f87171;
   --success: #4ade80;
   --warn: #fbbf24;
@@ -42,6 +46,8 @@
   --color-muted: var(--muted);
   --color-accent: var(--accent);
   --color-accent-2: var(--accent-2);
+  --color-accent-3: var(--accent-3);
+  --color-accent-4: var(--accent-4);
   --color-danger: var(--danger);
   --color-success: var(--success);
   --color-warn: var(--warn);
@@ -96,6 +102,30 @@ h6 {
 .hover-card:hover {
   transform: translateY(-2px);
   border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+}
+
+/* Ambient Glow & Gradient Utilities */
+.gradient-headline {
+  background: linear-gradient(135deg, var(--text) 40%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-accent {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.glow-card {
+  position: relative;
+  transition: all 0.25s ease;
+}
+.glow-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+  box-shadow: 0 10px 30px -10px
+    color-mix(in srgb, var(--accent) 20%, transparent);
 }
 
 /* Custom scrollbars */
