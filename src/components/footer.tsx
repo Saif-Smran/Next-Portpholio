@@ -1,11 +1,15 @@
 import { ArrowUpRight, GitBranch, Mail } from "lucide-react";
 import Link from "next/link";
-import { getProfile, getSocialLinks } from "@/lib/db";
+import { getProfile } from "@/lib/db";
 import { FacebookIcon, GithubIcon, LinkedinIcon, WhatsAppIcon } from "./icons";
 
 export async function Footer() {
-  const profile = await getProfile();
-  const _socialLinks = await getSocialLinks();
+  let profile = null;
+  try {
+    profile = await getProfile();
+  } catch {
+    profile = null;
+  }
 
   const availabilityText =
     profile?.availability === "open"
